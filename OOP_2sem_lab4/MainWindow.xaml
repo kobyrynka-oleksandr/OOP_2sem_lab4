@@ -34,7 +34,7 @@
     
     <Grid>
 
-        <Grid x:Name="MainGrid" d:Visibility="Collapsed">
+        <Grid x:Name="MainGrid" d:Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="100"/>
                 <RowDefinition MinHeight="100"/>
@@ -70,6 +70,8 @@
                 <TextBlock Text="Склад" TextDecorations="Underline" FontSize="25" FontWeight="Medium"  Foreground="White" ></TextBlock>
             </Button>
             <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Text="Головна:" FontSize="30" FontWeight="Medium"  Foreground="Black" Margin="15, 0, 0, 0"></TextBlock>
+
+            <TextBlock x:Name="gardenText" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" FontSize="10" Foreground="Black"/>
         </Grid>
 
         <Grid x:Name="GardenGrid" d:Visibility="Collapsed">
@@ -117,12 +119,12 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Button Grid.Row="2" Height="40" Width="100" Grid.Column="2" Content="Додати" FontSize="17" Background="MediumSeaGreen" Foreground="White" HorizontalAlignment="Center" BorderBrush="Transparent"/>
+            <Button Click="Add_Vegetable_Click" Grid.Row="2" Height="40" Width="100" Grid.Column="2" Content="Додати" FontSize="17" Background="MediumSeaGreen" Foreground="White" HorizontalAlignment="Center" BorderBrush="Transparent"/>
             <Button Grid.Row="3" Height="40" Width="100" Grid.Column="2" Content="Редагувати" FontSize="17" Background="#F5C45E" Foreground="White" Margin="5" HorizontalAlignment="Center" BorderBrush="Transparent"/>
             <Button Grid.Row="4" Height="40" Width="100" Grid.Column="2" Content="Видалити" FontSize="17" Background="Firebrick" Foreground="White" Margin="5" HorizontalAlignment="Center" BorderBrush="Transparent"/>
         </Grid>
 
-        <Grid x:Name="ConsignmentGrid" d:Visibility="Visible">
+        <Grid x:Name="ConsignmentGrid" d:Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="100"/>
                 <RowDefinition MinHeight="100"/>

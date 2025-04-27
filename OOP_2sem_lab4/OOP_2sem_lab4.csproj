@@ -110,8 +110,8 @@
     <Compile Include="Consignment.cs" />
     <Compile Include="ConsignmentDTO.cs" />
     <Compile Include="DeliveryType.cs" />
-    <Compile Include="Garden.cs" />
-    <Compile Include="GardenDTO.cs" />
+    <Compile Include="Vegetable.cs" />
+    <Compile Include="VegetableDTO.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -135,7 +135,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="GreenSupply_DB.db" />
+    <None Include="GreenSupply_DB.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
