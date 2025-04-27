@@ -1,0 +1,25 @@
+﻿<Window x:Class="OOP_2sem_lab4.ConfirmChangesToDB"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OOP_2sem_lab4"
+        mc:Ignorable="d"
+        Title="ConfirmChangesToDB" Height="300" Width="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="2" Content="Дані зміни будуть внесені у БД, підтвердити зміну?" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16"/>
+
+        <Button Click="Yes_Click" Grid.Row="1" Background="Transparent" BorderBrush="Black" Width="70" Height="40" Content="Так" FontWeight="Medium"/>
+
+        <Button Click="No_Click" Grid.Row="1" Grid.Column="1" Background="Transparent" BorderBrush="Black" Width="70" Height="40" Content="Ні" FontWeight="Medium"/>
+    </Grid>
+</Window>

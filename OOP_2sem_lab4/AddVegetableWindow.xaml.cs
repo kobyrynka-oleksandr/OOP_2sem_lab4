@@ -20,12 +20,10 @@ namespace OOP_2sem_lab4
     /// </summary>
     public partial class AddVegetableWindow : Window
     {
-        VegetableDTO vegetableDB;
+        public Vegetable NewVegetable { get; private set; }
         public AddVegetableWindow()
         {
             InitializeComponent();
-            vegetableDB = new VegetableDTO();
-            
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -33,9 +31,8 @@ namespace OOP_2sem_lab4
             string name = Name.Text;
             string country = Country.Text;
             int numOfSeason = int.Parse(NumOfSeason.Text);
-            Vegetable vegetable = new Vegetable(name, country, numOfSeason);
-            vegetableDB.Vegetables.Add(vegetable);
-            vegetableDB.SaveChanges();
+            NewVegetable = new Vegetable(name, country, numOfSeason);
+            this.DialogResult = true;
             this.Close();
         }
     }
