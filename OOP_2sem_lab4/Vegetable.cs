@@ -21,5 +21,9 @@ namespace OOP_2sem_lab4
             this.Country = Country;
             this.NumOfSeason = NumOfSeason;
         }
+        public override string ToString()
+        {
+            return $"{VegetableName} ({Country}, сезон {NumOfSeason})";
+        }
     }
 }

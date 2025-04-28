@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace OOP_2sem_lab4
 {
-    internal class DeliveryType
-    {
-    }
+    enum DeliveryType { Посередник, Постачальник, ВласнимиЗасобами }
 }

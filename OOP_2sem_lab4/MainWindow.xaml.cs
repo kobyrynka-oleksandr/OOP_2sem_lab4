@@ -20,6 +20,8 @@ namespace OOP_2sem_lab4
     {
         List<Vegetable> vegetableList = new List<Vegetable>();
         VegetableDTO vegetableDB;
+        List<Consignment> consignmentList = new List<Consignment>();
+        ConsignmentDTO consignmentDB;
         public MainWindow()
         {
             InitializeComponent();
@@ -30,6 +32,8 @@ namespace OOP_2sem_lab4
             StorageGrid.Visibility = Visibility.Collapsed;
 
             vegetableDB = new VegetableDTO();
+            consignmentDB = new ConsignmentDTO();
+
             List<Vegetable> garden = vegetableDB.Vegetables.ToList();
             string strGarden = "";
             foreach (var vegetable in garden)
@@ -40,7 +44,7 @@ namespace OOP_2sem_lab4
 
         private void Button_Window_Main_Click(object sender, RoutedEventArgs e)
         {
-            if (vegetableList != null)
+            if (vegetableList.Count != 0)
             {
                 ConfirmChangesToDB form = new ConfirmChangesToDB();
 
@@ -51,7 +55,19 @@ namespace OOP_2sem_lab4
                     vegetableList.Clear();
                     RefreshGardenData();
                 }
+            }
 
+            if (consignmentList.Count != 0)
+            {
+                ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+                if (form.ShowDialog() == true)
+                    SaveConsignmentsToDatabase();
+                else
+                {
+                    consignmentList.Clear();
+                    RefreshConsignmentData();
+                }
             }
 
             MainGrid.Visibility = Visibility.Visible;
@@ -63,6 +79,18 @@ namespace OOP_2sem_lab4
         private void Button_Window_Garden_Click(object sender, RoutedEventArgs e)
         {
             RefreshGardenData();
+            if (consignmentList.Count != 0)
+            {
+                ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+                if (form.ShowDialog() == true)
+                    SaveConsignmentsToDatabase();
+                else
+                {
+                    consignmentList.Clear();
+                    RefreshConsignmentData();
+                }
+            }
             MainGrid.Visibility = Visibility.Collapsed;
             GardenGrid.Visibility = Visibility.Visible;
             ConsignmentGrid.Visibility = Visibility.Collapsed;
@@ -71,7 +99,8 @@ namespace OOP_2sem_lab4
 
         private void Button_Window_Сonsignment_Click(object sender, RoutedEventArgs e)
         {
-            if (vegetableList != null)
+            RefreshConsignmentData();
+            if (vegetableList.Count != 0)
             {
                 ConfirmChangesToDB form = new ConfirmChangesToDB();
 
@@ -82,7 +111,6 @@ namespace OOP_2sem_lab4
                     vegetableList.Clear();
                     RefreshGardenData();
                 }
-
             }
 
             MainGrid.Visibility = Visibility.Collapsed;
@@ -93,7 +121,7 @@ namespace OOP_2sem_lab4
 
         private void Button_Window_Storage_Click(object sender, RoutedEventArgs e)
         {
-            if (vegetableList != null)
+            if (vegetableList.Count != 0)
             {
                 ConfirmChangesToDB form = new ConfirmChangesToDB();
 
@@ -104,7 +132,19 @@ namespace OOP_2sem_lab4
                     vegetableList.Clear();
                     RefreshGardenData();
                 }
+            }
 
+            if (consignmentList.Count != 0)
+            {
+                ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+                if (form.ShowDialog() == true)
+                    SaveConsignmentsToDatabase();
+                else
+                {
+                    consignmentList.Clear();
+                    RefreshConsignmentData();
+                }
             }
 
             MainGrid.Visibility = Visibility.Collapsed;
@@ -229,6 +269,40 @@ namespace OOP_2sem_lab4
             if (vegetableList.Any())
             {
                 vegetableDB.SaveToDB(vegetableList);
+            }
+        }
+
+        private void Add_Consignment_Click(object sender, RoutedEventArgs e)
+        {
+            AddConsigmentWindow addConsignmentWindow = new AddConsigmentWindow();
+            if (addConsignmentWindow.ShowDialog() == true)
+            {
+                consignmentList.Add(addConsignmentWindow.NewConsignment);
+                RefreshConsignmentData();
+            }
+        }
+
+        private void Change_Consignment_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Del_Consignment_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void RefreshConsignmentData()
+        {
+            var dbConsignments = consignmentDB.GetListFromDB();
+            var combinedList = dbConsignments.Concat(consignmentList).ToList();
+            ConsignmentData.ItemsSource = combinedList;
+        }
+
+        private void SaveConsignmentsToDatabase()
+        {
+            if (consignmentList.Any())
+            {
+                consignmentDB.SaveToDB(consignmentList);
             }
         }
     }
