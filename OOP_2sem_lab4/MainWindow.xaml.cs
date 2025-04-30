@@ -172,15 +172,7 @@ namespace OOP_2sem_lab4
                 return;
             }
 
-            var editableVegetable = new Vegetable
-            {
-                Id = selectedVegetable.Id,
-                VegetableName = selectedVegetable.VegetableName,
-                Country = selectedVegetable.Country,
-                NumOfSeason = selectedVegetable.NumOfSeason
-            };
-
-            var editWindow = new ChangeVegetableWindow(editableVegetable);
+            var editWindow = new ChangeVegetableWindow(selectedVegetable);
             if (editWindow.ShowDialog() == true)
             {
                 if (!vegetableList.Contains(selectedVegetable))
@@ -189,10 +181,6 @@ namespace OOP_2sem_lab4
 
                     if (form.ShowDialog() == true)
                     {
-                        selectedVegetable.VegetableName = editableVegetable.VegetableName;
-                        selectedVegetable.Country = editableVegetable.Country;
-                        selectedVegetable.NumOfSeason = editableVegetable.NumOfSeason;
-
                         VegetableDTO.UpdateVegetable(selectedVegetable);
                     }
                     else
@@ -200,15 +188,8 @@ namespace OOP_2sem_lab4
                         return;
                     }
                 }
-
-                else
-                {
-                    selectedVegetable.VegetableName = editableVegetable.VegetableName;
-                    selectedVegetable.Country = editableVegetable.Country;
-                    selectedVegetable.NumOfSeason = editableVegetable.NumOfSeason;
-                }
-                GardenData.Items.Refresh();
             }
+            RefreshGardenData();
         }
         private void Del_Click(object sender, RoutedEventArgs e)
         {
@@ -220,10 +201,9 @@ namespace OOP_2sem_lab4
                 return;
             }
 
-            dynamic selectedVegetableDynamic = selectedVegetable;
-            string name = selectedVegetableDynamic.VegetableName;
-            string country = selectedVegetableDynamic.Country;
-            int season = selectedVegetableDynamic.NumOfSeason;
+            string name = selectedVegetable.VegetableName;
+            string country = selectedVegetable.Country;
+            int season = selectedVegetable.NumOfSeason;
 
             if (!vegetableList.Contains(selectedVegetable))
             {

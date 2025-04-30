@@ -163,7 +163,7 @@
 
             <DataGrid x:Name="ConsignmentData" Grid.Row="1" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="5" Margin="50, 10, 10, 0" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" BorderBrush="Black">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Назва гордини" Binding="{Binding VegetableName}" MinWidth="110" Width="*"/>
+                    <DataGridTextColumn Header="Назва гордини" Binding="{Binding Vegetable}" MinWidth="110" Width="*"/>
                     <DataGridTextColumn Header="Кількість (кг)" Binding="{Binding Quantity}" MinWidth="70" Width="*" />
                     <DataGridTextColumn Header="Ціна за одиницю (грн)" Binding="{Binding PricePerUnit}" MinWidth="140" Width="*" />
                     <DataGridTextColumn Header="Вартість транc-ння (грн)" Binding="{Binding CostOfDeliv}" MinWidth="150" Width="*"/>

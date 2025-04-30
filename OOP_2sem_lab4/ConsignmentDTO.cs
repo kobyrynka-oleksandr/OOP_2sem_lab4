@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace OOP_2sem_lab4
@@ -11,19 +12,34 @@ namespace OOP_2sem_lab4
     public class ConsignmentDTO : DbContext
     {
         public DbSet<Consignment> Consignments { get; set; }
+        public DbSet<Vegetable> Vegetables { get; set; }
 
         public ConsignmentDTO() : base("DefaultConnection") { }
 
         public void SaveToDB(List<Consignment> consignmentList)
         {
-            Consignments.AddRange(consignmentList);
+            foreach (var consignment in consignmentList)
+            {
+                var existingVegetable = Vegetables.FirstOrDefault(v => v.Id == consignment.VegetableId);
+
+                if (existingVegetable == null)
+                {
+                    Vegetables.Add(consignment.Vegetable);
+                }
+                else
+                {
+                    consignment.Vegetable = existingVegetable;
+                }
+
+                Consignments.Add(consignment);
+            }
+
             SaveChanges();
             consignmentList.Clear();
         }
-
         public List<Consignment> GetListFromDB()
         {
-            return Consignments.ToList();
+            return Consignments.Include(c => c.Vegetable).ToList();
         }
 
         public static void UpdateConsignment(Consignment consignment)
@@ -33,19 +49,17 @@ namespace OOP_2sem_lab4
                 connection.Open();
 
                 string query = @"UPDATE Consignments 
-                             SET VegetableName = @VegetableName,
-                                 IdOfVegetable = @IdOfVegetable
-                                 Quantity = @Quantity, 
-                                 PricePerUnit = @PricePerUnit, 
-                                 CostOfDeliv = @CostOfDeliv, 
-                                 TypeOfDeliv = @TypeOfDeliv, 
-                                 DelivDate = @DelivDate 
-                             WHERE Id = @Id";
+                                 SET VegetableId = @VegetableId,
+                                     Quantity = @Quantity, 
+                                     PricePerUnit = @PricePerUnit, 
+                                     CostOfDeliv = @CostOfDeliv, 
+                                     TypeOfDeliv = @TypeOfDeliv, 
+                                     DelivDate = @DelivDate
+                                 WHERE Id = @Id";
 
                 using (var command = new SQLiteCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@VegetableName", consignment.VegetableName);
-                    command.Parameters.AddWithValue("@IdOfVegetable", consignment.IdOfVegetable);
+                    command.Parameters.AddWithValue("@VegetableId", consignment.VegetableId);
                     command.Parameters.AddWithValue("@Quantity", consignment.Quantity);
                     command.Parameters.AddWithValue("@PricePerUnit", consignment.PricePerUnit);
                     command.Parameters.AddWithValue("@CostOfDeliv", consignment.CostOfDeliv);
@@ -72,6 +86,11 @@ namespace OOP_2sem_lab4
                     command.ExecuteNonQuery();
                 }
             }
+        }
+
+        public Vegetable GetVegetableById(int id)
+        {
+            return Vegetables.Find(id);
         }
     }
 }

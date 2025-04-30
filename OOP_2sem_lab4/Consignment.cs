@@ -9,8 +9,8 @@ namespace OOP_2sem_lab4
     public class Consignment
     {
         public int Id { get; set; }
-        public string VegetableName { get; set; }
-        public int IdOfVegetable { get; set; }
+        public int VegetableId { get; set; }
+        public virtual Vegetable Vegetable { get; set; }
         public decimal Quantity { get; set; }
         public decimal PricePerUnit { get; set; }
         public decimal CostOfDeliv { get; set; }
@@ -19,10 +19,10 @@ namespace OOP_2sem_lab4
 
         public Consignment() { }
 
-        public Consignment(string vegetableName, int idOfVegetable, decimal quantity, decimal pricePerUnit, decimal costOfDeliv, string typeOfDeliv, string delivDate)
+        public Consignment(int vegetableId, Vegetable vegetable, decimal quantity, decimal pricePerUnit, decimal costOfDeliv, string typeOfDeliv, string delivDate)
         {
-            VegetableName = vegetableName;
-            IdOfVegetable = idOfVegetable;
+            VegetableId = vegetableId;
+            Vegetable = vegetable;
             Quantity = quantity;
             PricePerUnit = pricePerUnit;
             CostOfDeliv = costOfDeliv;

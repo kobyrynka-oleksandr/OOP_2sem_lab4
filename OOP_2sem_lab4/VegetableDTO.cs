@@ -50,6 +50,11 @@ namespace OOP_2sem_lab4
             {
                 connection.Open();
 
+                using (var pragmaCmd = new SQLiteCommand("PRAGMA foreign_keys = ON;", connection))
+                {
+                    pragmaCmd.ExecuteNonQuery();
+                }
+
                 string query = "DELETE FROM Vegetables WHERE Id = @Id";
 
                 using (var command = new SQLiteCommand(query, connection))
