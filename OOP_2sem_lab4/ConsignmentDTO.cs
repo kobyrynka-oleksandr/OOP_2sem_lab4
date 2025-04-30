@@ -87,10 +87,5 @@ namespace OOP_2sem_lab4
                 }
             }
         }
-
-        public Vegetable GetVegetableById(int id)
-        {
-            return Vegetables.Find(id);
-        }
     }
 }

@@ -264,12 +264,85 @@ namespace OOP_2sem_lab4
 
         private void Change_Consignment_Click(object sender, RoutedEventArgs e)
         {
+            var selectedConsignment = ConsignmentData.SelectedItem as Consignment;
 
+            if (selectedConsignment == null)
+            {
+                MessageBox.Show("Будь ласка, виберіть партію для редагування.");
+                return;
+            }
+
+            var editWindow = new ChangeConsignmentWindow(selectedConsignment);
+            if (editWindow.ShowDialog() == true)
+            {
+                if (!consignmentList.Contains(selectedConsignment))
+                {
+                    ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+                    if (form.ShowDialog() == true)
+                    {
+                        ConsignmentDTO.UpdateConsignment(selectedConsignment);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+
+            RefreshConsignmentData();
         }
 
         private void Del_Consignment_Click(object sender, RoutedEventArgs e)
         {
+            var selectedConsignment = ConsignmentData.SelectedItem as Consignment;
 
+            if (selectedConsignment == null)
+            {
+                MessageBox.Show("Будь ласка, виберіть партію для видалення.");
+                return;
+            }
+
+            int vegetableId = selectedConsignment.VegetableId;
+            decimal quantity = selectedConsignment.Quantity;
+            string delivDate = selectedConsignment.DelivDate;
+
+            if (!consignmentList.Contains(selectedConsignment))
+            {
+                ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+                if (form.ShowDialog() == true)
+                {
+                    var consignmentToDelete = consignmentDB.Consignments.FirstOrDefault(c =>
+                        c.VegetableId == vegetableId &&
+                        c.Quantity == quantity &&
+                        c.DelivDate == delivDate);
+
+                    if (consignmentToDelete != null)
+                    {
+                        ConsignmentDTO.DeleteConsignment(consignmentToDelete);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не вдалося знайти партію у базі даних.");
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                var consignmentToDelete = consignmentList.FirstOrDefault(c =>
+                    c.VegetableId == vegetableId &&
+                    c.Quantity == quantity &&
+                    c.DelivDate == delivDate);
+
+                consignmentList.Remove(consignmentToDelete);
+            }
+
+            RefreshConsignmentData();
         }
         private void RefreshConsignmentData()
         {

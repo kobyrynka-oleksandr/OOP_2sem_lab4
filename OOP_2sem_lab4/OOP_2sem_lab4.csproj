@@ -120,6 +120,9 @@
     <Compile Include="AddVegetableWindow.xaml.cs">
       <DependentUpon>AddVegetableWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChangeConsignmentWindow.xaml.cs">
+      <DependentUpon>ChangeConsignmentWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ChangeVegetableWindow.xaml.cs">
       <DependentUpon>ChangeVegetableWindow.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddVegetableWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChangeConsignmentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
