@@ -215,36 +215,38 @@
             <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Text="Склад:" FontSize="30" FontWeight="Medium"  Foreground="Black" Margin="15, 0, 0, 0"></TextBlock>
 
             <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Text="Список складів:" FontSize="20" FontWeight="Normal" VerticalAlignment="Bottom" Foreground="Black" Margin="15, 0, 0, 0"></TextBlock>
-            
-            <ListBox x:Name="StorageListBox" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" 
-         Margin="10" DisplayMemberPath="ToShortString" />
 
-            <StackPanel Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Margin="10">
-                <TextBlock Text="ID складу:" FontWeight="Bold"/>
-                <TextBox x:Name="StorageIdTextBox" Margin="0,0,0,5"/>
-                <TextBlock Text="Вартість обслуговування:" FontWeight="Bold"/>
-                <TextBox x:Name="StorageCostTextBox"/>
-            </StackPanel>
-            <Button Grid.Column="6" Grid.Row="1" Content="Додати склад" Height="50" Width="100" Foreground="Black" FontSize="14" Background="White"/>
+            <TextBlock Grid.Column="4" Grid.Row="1" Text="Вміст складу:" FontSize="20" FontWeight="Normal" VerticalAlignment="Bottom" Foreground="Black" Margin="15, 0, 0, 0"></TextBlock>
+
+            <DataGrid x:Name="StorageData" Grid.Row="2" Grid.ColumnSpan="3" Margin="10, 10, 10, 0" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" BorderBrush="Black">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" MinWidth="110" Width="*"/>
+                    <DataGridTextColumn Header="Вартість об-ння" Binding="{Binding ServiceCost}" MinWidth="70" Width="*" />
+                    <DataGridTextColumn Header="Вмістимість (кг)" Binding="{Binding Capacity}" MinWidth="140" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button Click="Add_Storage_Click" Grid.Column="3" Grid.Row="1" Content="Додати склад" Height="50" Width="110" Foreground="Black" FontSize="14" Background="White"/>
+            <Button Click="Del_Storage_Click" Grid.Column="3" Grid.Row="2" Content="Видалити склад" Height="50" Width="110" Foreground="Black" FontSize="14" Background="White"/>
 
             <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Margin="10" FontSize="16" Foreground="Black" FontWeight="Bold"
            Text="{Binding SelectedStorageTotalValue, Mode=OneWay}" />
 
-            <DataGrid x:Name="StorageConsignmentDataGrid" Grid.Row="3" Grid.RowSpan="2" Grid.ColumnSpan="7" Margin="10"
+            <DataGrid x:Name="StorageDataGrid" Grid.Row="3" Grid.RowSpan="2" Grid.ColumnSpan="7" Margin="10"
           AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Назва" Binding="{Binding Vegetable.Name}" Width="*" />
-                    <DataGridTextColumn Header="Кількість" Binding="{Binding Quantity}" Width="*"/>
-                    <DataGridTextColumn Header="Вартість партії" Binding="{Binding UnitPrice}" Width="*" />
-                    <DataGridTextColumn Header="Вартість транc-ння" Binding="{Binding SeasonNumber}" Width="*"/>
-                    <DataGridTextColumn Header="Дата" Binding="{Binding DeliveryDate}" Width="*"/>
-                    <DataGridTextColumn Header="Тип доставки" Binding="{Binding DeliveryType}" Width="*"/>
+                    <DataGridTextColumn Header="Городина" Binding="{Binding Vegetable}" Width="*" />
+                    <DataGridTextColumn Header="Кількість (шт)" Binding="{Binding Quantity}" Width="*"/>
+                    <DataGridTextColumn Header="Ціна за одиницю (грн)" Binding="{Binding PricePerUnit}" Width="*" />
+                    <DataGridTextColumn Header="Вартість транc-ння (грн)" Binding="{Binding CostOfDeliv}" Width="*"/>
+                    <DataGridTextColumn Header="Тип доставки" Binding="{Binding TypeOfDeliv}" Width="*"/>
+                    <DataGridTextColumn Header="Дата поставки" Binding="{Binding DelivDate}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
 
             <StackPanel Grid.Row="5" Grid.ColumnSpan="7" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Content="Прийняти партію" Height="50" Margin="10" FontSize="17" Background="MediumSeaGreen" Foreground="White" HorizontalAlignment="Center" BorderBrush="Transparent"/>
-                <Button Content="Списати партію" Height="50" Margin="10" FontSize="17" Background="Firebrick" Foreground="White" HorizontalAlignment="Center" BorderBrush="Transparent"/>
+                <Button Click="Accept_Consignment_Click" Content="Прийняти партію" Height="50" Margin="10" FontSize="17" Background="MediumSeaGreen" Foreground="White" HorizontalAlignment="Center" BorderBrush="Transparent"/>
+                <Button Click="Reject_Consignment_Click" Content="Списати партію" Height="50" Margin="10" FontSize="17" Background="Firebrick" Foreground="White" HorizontalAlignment="Center" BorderBrush="Transparent"/>
             </StackPanel>
         </Grid>
     </Grid>

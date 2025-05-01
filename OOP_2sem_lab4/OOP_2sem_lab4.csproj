@@ -117,6 +117,9 @@
     <Compile Include="AddConsigmentWindow.xaml.cs">
       <DependentUpon>AddConsigmentWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddStorageWindow.xaml.cs">
+      <DependentUpon>AddStorageWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddVegetableWindow.xaml.cs">
       <DependentUpon>AddVegetableWindow.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
     <Compile Include="Storage.cs" />
     <Compile Include="StorageDTO.cs" />
     <Page Include="AddConsigmentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddStorageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
