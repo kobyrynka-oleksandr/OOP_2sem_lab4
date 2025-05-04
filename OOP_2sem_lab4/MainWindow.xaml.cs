@@ -22,6 +22,8 @@ namespace OOP_2sem_lab4
         VegetableDTO vegetableDB;
         List<Consignment> consignmentList = new List<Consignment>();
         ConsignmentDTO consignmentDB;
+        StorageDTO storageDB;
+        ConsignmentInStorageDTO consignmentsInStorageDB;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,6 +35,8 @@ namespace OOP_2sem_lab4
 
             vegetableDB = new VegetableDTO();
             consignmentDB = new ConsignmentDTO();
+            storageDB = new StorageDTO();
+            consignmentsInStorageDB = new ConsignmentInStorageDTO();
 
             List<Vegetable> garden = vegetableDB.Vegetables.ToList();
             string strGarden = "";
@@ -121,6 +125,9 @@ namespace OOP_2sem_lab4
 
         private void Button_Window_Storage_Click(object sender, RoutedEventArgs e)
         {
+            ConsignmentsInStorageDataGrid.ItemsSource = null;
+            ShortInfoToStorage.Text = "";
+            RefreshStorageData();
             if (vegetableList.Count != 0)
             {
                 ConfirmChangesToDB form = new ConfirmChangesToDB();
@@ -146,6 +153,8 @@ namespace OOP_2sem_lab4
                     RefreshConsignmentData();
                 }
             }
+
+            RefreshConsignmentDataInStorageTab();
 
             MainGrid.Visibility = Visibility.Collapsed;
             GardenGrid.Visibility = Visibility.Collapsed;
@@ -357,6 +366,148 @@ namespace OOP_2sem_lab4
             {
                 consignmentDB.SaveToDB(consignmentList);
             }
+        }
+
+        private void Accept_Consignment_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedConsignment = ConsignmentsDataGrid.SelectedItem as Consignment;
+
+            if (selectedConsignment == null)
+            {
+                MessageBox.Show("Будь ласка, виберіть партію.");
+                return;
+            }
+
+            AcceptConisgnmentWindow acceptConisgnmentWindow = new AcceptConisgnmentWindow();
+            if (acceptConisgnmentWindow.ShowDialog() == true)
+            {
+                Storage storage = acceptConisgnmentWindow.Storage;
+
+                double totalWeight = consignmentsInStorageDB.GetTotalQuantityForStorage(storage.Id) + (double)selectedConsignment.Quantity;
+                if (totalWeight > storage.Capacity)
+                {
+                    MessageBox.Show("Перевищено вмістимість складу.");
+                    return;
+                }
+                ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+                if (form.ShowDialog() == true)
+                {
+                    storageDB.AcceptConsignment(storage.Id, selectedConsignment);
+
+                    RefreshConsignmentDataInStorageTab();
+                }
+            }
+        }
+
+        private void Reject_Consignment_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedConsignment = ConsignmentsInStorageDataGrid.SelectedItem as ConsignmentInStorage;
+
+            if (selectedConsignment == null)
+            {
+                MessageBox.Show("Будь ласка, виберіть партію для списання!");
+                return;
+            }
+
+            int id = selectedConsignment.Id;
+            int storageId = selectedConsignment.StorageId;
+
+            ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+            if (form.ShowDialog() == true)
+            {
+                consignmentsInStorageDB.RejectConsignment(id);
+
+                RefreshConsignmentsInStorage(storageId);
+                ShortInfoToStorage.Text = consignmentsInStorageDB.ToShortString(storageId);
+            }
+        }
+
+        private void Add_Storage_Click(object sender, RoutedEventArgs e)
+        {
+            AddStorageWindow addStorageWindow = new AddStorageWindow();
+            if (addStorageWindow.ShowDialog() == true)
+            {
+                Storage newStorage = addStorageWindow.NewStorage;
+
+                try
+                {
+                    ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+                    if (form.ShowDialog() == true)
+                    {
+                        storageDB.AddStorage(newStorage);
+                        RefreshStorageData();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка при додаванні складу.");
+                }
+            }
+        }
+
+        private void Del_Storage_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedStorage = StorageData.SelectedItem as Storage;
+
+            if (selectedStorage == null)
+            {
+                MessageBox.Show("Будь ласка, виберіть елемент для видалення.");
+                return;
+            }
+
+            int id = selectedStorage.Id;
+
+            ConfirmChangesToDB form = new ConfirmChangesToDB();
+
+            if (form.ShowDialog() == true)
+            {
+
+                if (selectedStorage != null)
+                {
+                    storageDB.DeleteStorage(id);
+                }
+                else
+                {
+                    MessageBox.Show("Не вдалося знайти елемент у базі даних.");
+                }
+
+            }
+            else
+            {
+                return;
+            }
+            RefreshStorageData();
+            ConsignmentsInStorageDataGrid.ItemsSource = null;
+            ShortInfoToStorage.Text = "";
+        }
+        private void StorageData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedStorage = StorageData.SelectedItem as Storage;
+            if (selectedStorage == null)
+            {
+                return;
+            }
+
+            RefreshConsignmentsInStorage(selectedStorage.Id);
+            ShortInfoToStorage.Text = consignmentsInStorageDB.ToShortString(selectedStorage.Id);
+        }
+        private void RefreshStorageData()
+        {
+            var allStorages = storageDB.GetListOfStoragesFromDB();
+            StorageData.ItemsSource = allStorages;
+        }
+        private void RefreshConsignmentsInStorage(int storageId)
+        {
+            var dbConsignmentsInStorage = consignmentsInStorageDB.GetListOfConsignmentsInStoragesFromDB(storageId);
+            ConsignmentsInStorageDataGrid.ItemsSource = dbConsignmentsInStorage;
+        }
+        private void RefreshConsignmentDataInStorageTab()
+        {
+            var dbConsignments = consignmentDB.GetListFromDB();
+            ConsignmentsDataGrid.ItemsSource = dbConsignments;
         }
     }
 }

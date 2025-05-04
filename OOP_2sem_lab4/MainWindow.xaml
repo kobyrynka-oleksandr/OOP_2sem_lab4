@@ -216,27 +216,35 @@
 
             <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Text="Список складів:" FontSize="20" FontWeight="Normal" VerticalAlignment="Bottom" Foreground="Black" Margin="15, 0, 0, 0"></TextBlock>
 
-            <TextBlock Grid.Column="4" Grid.Row="1" Text="Вміст складу:" FontSize="20" FontWeight="Normal" VerticalAlignment="Bottom" Foreground="Black" Margin="15, 0, 0, 0"></TextBlock>
+            <TextBlock Grid.Column="4" Grid.Row="1" Text="Вміст складу:" FontSize="20" FontWeight="Normal" VerticalAlignment="Top" Foreground="Black" Margin="15, 0, 0, 0"></TextBlock>
 
-            <DataGrid x:Name="StorageData" Grid.Row="2" Grid.ColumnSpan="3" Margin="10, 10, 10, 0" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" BorderBrush="Black">
+            <DataGrid SelectionChanged="StorageData_SelectionChanged" x:Name="StorageData" Grid.Row="2" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="10, 10, 10, 0" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" BorderBrush="Black">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" MinWidth="110" Width="*"/>
+                    <DataGridTextColumn Header="Номер складу" Binding="{Binding Id}" MinWidth="110" Width="*"/>
                     <DataGridTextColumn Header="Вартість об-ння" Binding="{Binding ServiceCost}" MinWidth="70" Width="*" />
                     <DataGridTextColumn Header="Вмістимість (кг)" Binding="{Binding Capacity}" MinWidth="140" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Button Click="Add_Storage_Click" Grid.Column="3" Grid.Row="1" Content="Додати склад" Height="50" Width="110" Foreground="Black" FontSize="14" Background="White"/>
-            <Button Click="Del_Storage_Click" Grid.Column="3" Grid.Row="2" Content="Видалити склад" Height="50" Width="110" Foreground="Black" FontSize="14" Background="White"/>
+            <Button Click="Add_Storage_Click" Grid.Column="3" Grid.Row="2" Content="Додати склад" Height="50" Width="110" Foreground="Black" FontSize="14" Background="White"/>
+            <Button Click="Del_Storage_Click" Grid.Column="3" Grid.Row="3" Content="Видалити склад" Height="50" Width="110" Foreground="Black" FontSize="14" Background="White"/>
 
-            <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="3" Margin="10" FontSize="16" Foreground="Black" FontWeight="Bold"
-           Text="{Binding SelectedStorageTotalValue, Mode=OneWay}" />
+            <DataGrid x:Name="ConsignmentsInStorageDataGrid" Grid.Row="1" Grid.RowSpan="3" Grid.Column="4" Grid.ColumnSpan="3" Margin="10, 30, 10, 40"
+AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Городина" Binding="{Binding VegetableStats}" MinWidth="180" />
+                    <DataGridTextColumn Header="Кількість (кг)" Binding="{Binding Quantity}" Width="*"/>
+                    <DataGridTextColumn Header="Ціна за одиницю (грн)" Binding="{Binding PricePerUnit}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
 
-            <DataGrid x:Name="StorageDataGrid" Grid.Row="3" Grid.RowSpan="2" Grid.ColumnSpan="7" Margin="10"
+            <TextBlock x:Name="ShortInfoToStorage" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="40" FontSize="12" FontWeight="Medium"/>
+
+            <DataGrid x:Name="ConsignmentsDataGrid" Grid.Row="4" Grid.ColumnSpan="7" Margin="10"
           AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Городина" Binding="{Binding Vegetable}" Width="*" />
-                    <DataGridTextColumn Header="Кількість (шт)" Binding="{Binding Quantity}" Width="*"/>
+                    <DataGridTextColumn Header="Кількість (кг)" Binding="{Binding Quantity}" Width="*"/>
                     <DataGridTextColumn Header="Ціна за одиницю (грн)" Binding="{Binding PricePerUnit}" Width="*" />
                     <DataGridTextColumn Header="Вартість транc-ння (грн)" Binding="{Binding CostOfDeliv}" Width="*"/>
                     <DataGridTextColumn Header="Тип доставки" Binding="{Binding TypeOfDeliv}" Width="*"/>

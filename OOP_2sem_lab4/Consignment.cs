@@ -29,5 +29,9 @@ namespace OOP_2sem_lab4
             TypeOfDeliv = typeOfDeliv;
             DelivDate = delivDate;
         }
+        public override string ToString()
+        {
+            return $"Городина: {Vegetable.ToString()}, кількість: {Quantity}, ціна за одиницю: {PricePerUnit}, вартість тр-ння: {CostOfDeliv}, тип доставки: {TypeOfDeliv}, дата поставки: {DelivDate}";
+        }
     }
 }
