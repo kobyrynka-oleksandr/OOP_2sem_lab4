@@ -43,6 +43,31 @@ namespace OOP_2sem_lab4
             }
             return consignments;
         }
+        public List<ConsignmentInStorage> GetListOfConsignmentsInStoragesFromDB()
+        {
+            var consignments = new List<ConsignmentInStorage>();
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+                var command = new SQLiteCommand("SELECT Id, VegetableStats, Quantity, PricePerUnit, StorageId FROM ConsignmentsInStorage", connection);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int currentStorageId = reader.GetInt32(4);
+                    var consignment = new ConsignmentInStorage
+                    {
+                        Id = reader.GetInt32(0),
+                        VegetableStats = reader.GetString(1),
+                        Quantity = reader.GetDouble(2),
+                        PricePerUnit = reader.GetDouble(3),
+                        StorageId = currentStorageId
+                    };
+                    IsValidInput(consignment);
+                    consignments.Add(consignment);
+                }
+            }
+            return consignments;
+        }
         public void RejectConsignment(int consignmentId)
         {
             using (var connection = new SQLiteConnection(ConnectionString))

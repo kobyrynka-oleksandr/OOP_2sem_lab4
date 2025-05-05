@@ -37,6 +37,8 @@ namespace OOP_2sem_lab4
             consignmentDB = new ConsignmentDTO();
             storageDB = new StorageDTO();
             consignmentsInStorageDB = new ConsignmentInStorageDTO();
+
+            RefreshMainTab();
         }
 
         private void Button_Window_Main_Click(object sender, RoutedEventArgs e)
@@ -66,6 +68,8 @@ namespace OOP_2sem_lab4
                     RefreshConsignmentData();
                 }
             }
+
+            RefreshMainTab();
 
             MainGrid.Visibility = Visibility.Visible;
             GardenGrid.Visibility = Visibility.Collapsed;
@@ -154,7 +158,25 @@ namespace OOP_2sem_lab4
             ConsignmentGrid.Visibility = Visibility.Collapsed;
             StorageGrid.Visibility = Visibility.Visible;
         }
+        private void RefreshMainTab()
+        {
+            GardenDataMain.ItemsSource = vegetableDB.GetListFromDB();
+            ConsignmentDataMain.ItemsSource = consignmentDB.GetListFromDB();
+            StorageDataMain.ItemsSource = storageDB.GetListOfStoragesFromDB();
+            TotalInfo.Text = GetInfoString();
+        }
+        private string GetInfoString()
+        {
+            string countOfVegetables = vegetableDB.GetListFromDB().Count.ToString();
+            string countOfConsignmentsNotAccepted = consignmentDB.GetListFromDB().Count.ToString();
 
+            var allConsignmentsInStorages = consignmentsInStorageDB.GetListOfConsignmentsInStoragesFromDB();
+            string countOfConsignmentsInStorages = allConsignmentsInStorages.Count.ToString();
+            string totalCostOfAllStorages = allConsignmentsInStorages.Sum(c => c.Quantity * c.PricePerUnit).ToString();
+
+            return $"Загальна кількість городин: ({countOfVegetables}), загальна кількість партій не прийнятих на склад: ({countOfConsignmentsNotAccepted}), загальна кількість партій на складах: ({countOfConsignmentsInStorages}), загальна вартість товарів на складі: ({totalCostOfAllStorages} грн).";
+
+        }
         private void Add_Vegetable_Click(object sender, RoutedEventArgs e)
         {
             AddVegetableWindow addVegetableWindow = new AddVegetableWindow();

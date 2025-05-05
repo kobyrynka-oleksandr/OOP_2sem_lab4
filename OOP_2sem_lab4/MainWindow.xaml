@@ -70,7 +70,41 @@
                 <TextBlock Text="Склад" TextDecorations="Underline" FontSize="25" FontWeight="Medium"  Foreground="White" ></TextBlock>
             </Button>
             <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Text="Головна:" FontSize="30" FontWeight="Medium"  Foreground="Black" Margin="15, 0, 0, 0"></TextBlock>
-            
+
+            <TextBlock Grid.ColumnSpan="2" Grid.Row="1" Text="Таблиця городин:" FontSize="22" FontWeight="Normal" VerticalAlignment="Bottom" Foreground="Black" Margin="10, 0, 0, 0"></TextBlock>
+
+            <DataGrid x:Name="GardenDataMain" Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" Margin="10, 10, 10, 50" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" BorderBrush="Black">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Назва" Binding="{Binding VegetableName}" Width="*" />
+                    <DataGridTextColumn Header="Країна походження" Binding="{Binding Country}" Width="*" />
+                    <DataGridTextColumn Header="Номер сезону визрівання" Binding="{Binding NumOfSeason}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="1" Text="Таблиця складів:" FontSize="22" FontWeight="Normal" VerticalAlignment="Bottom" Foreground="Black" Margin="10, 0, 0, 0"></TextBlock>
+
+            <DataGrid x:Name="StorageDataMain" Grid.Row="2" Grid.RowSpan="2" Grid.Column="4" Grid.ColumnSpan="3" Margin="10, 10, 10, 50" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" BorderBrush="Black">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер складу" Binding="{Binding Id}" MinWidth="110" Width="*"/>
+                    <DataGridTextColumn Header="Вартість об-ння" Binding="{Binding ServiceCost}" MinWidth="70" Width="*" />
+                    <DataGridTextColumn Header="Вмістимість (кг)" Binding="{Binding Capacity}" MinWidth="140" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Text="Таблиця партій товару:" FontSize="22" FontWeight="Normal" VerticalAlignment="Bottom" Foreground="Black" Margin="10, 0, 0, 0"></TextBlock>
+
+            <DataGrid x:Name="ConsignmentDataMain" Grid.Row="4" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="7" Margin="10, 10, 10, 50" AutoGenerateColumns="False" CanUserAddRows="False" HeadersVisibility="Column" BorderBrush="Black">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Городина" Binding="{Binding Vegetable}" MinWidth="110" Width="*"/>
+                    <DataGridTextColumn Header="Кількість (кг)" Binding="{Binding Quantity}" MinWidth="70" Width="*" />
+                    <DataGridTextColumn Header="Ціна за одиницю (грн)" Binding="{Binding PricePerUnit}" MinWidth="140" Width="*" />
+                    <DataGridTextColumn Header="Вартість транc-ння (грн)" Binding="{Binding CostOfDeliv}" MinWidth="150" Width="*"/>
+                    <DataGridTextColumn Header="Тип доставки" Binding="{Binding TypeOfDeliv}" MinWidth="100" Width="*"/>
+                    <DataGridTextColumn Header="Дата поставки" Binding="{Binding DelivDate}" MinWidth="100" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock x:Name="TotalInfo" Grid.Row="5" Grid.ColumnSpan="7" FontSize="12" FontWeight="Medium" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 20"/>
             
         </Grid>
 
