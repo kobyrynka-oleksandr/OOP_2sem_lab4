@@ -47,7 +47,7 @@ namespace OOP_2sem_lab4
                 var consignment = new Consignment
                 {
                     VegetableId = selectedVegetable.Id,
-                    Vegetable = selectedVegetable,               // навігаційна властивість (не обов'язково для збереження)
+                    Vegetable = selectedVegetable, 
                     Quantity = decimal.Parse(quantityText),
                     PricePerUnit = decimal.Parse(pricePerUnitText),
                     CostOfDeliv = decimal.Parse(costOfDelivText),

@@ -48,7 +48,7 @@ namespace OOP_2sem_lab4
         private bool IsValidInput(string idText, string serviceCostText, string capacityText)
         {
             var doubleRegex = new Regex(@"^\d+([.,]\d{1,2})?$");
-            var idRegex = new Regex(@"^[1-9]\d*$"); // Додатне ціле число без ведучих нулів
+            var idRegex = new Regex(@"^[1-9]\d*$");
 
             if (!idRegex.IsMatch(idText))
             {

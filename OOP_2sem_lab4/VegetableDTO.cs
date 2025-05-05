@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.SQLite;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace OOP_2sem_lab4
 {
@@ -23,7 +25,10 @@ namespace OOP_2sem_lab4
         }
         public List<Vegetable> GetListFromDB()
         {
-            return Vegetables.ToList();
+            List<Vegetable> listOfVegetables = Vegetables.ToList();
+            foreach (var vegetable in Vegetables)
+                IsValidInput(vegetable);
+            return listOfVegetables;
         }
         public static void UpdateVegetable(Vegetable vegetable)
         {
@@ -62,6 +67,37 @@ namespace OOP_2sem_lab4
                     command.Parameters.AddWithValue("@Id", vegetable.Id);
                     command.ExecuteNonQuery();
                 }
+            }
+        }
+        private void IsValidInput(Vegetable vegetable)
+        {
+            string name = vegetable.VegetableName;
+            string country = vegetable.Country;
+            string numOfSeasonText = vegetable.NumOfSeason.ToString();
+
+            var nameRegex = new Regex(@"^[А-Яа-яЇїІіЄєҐґA-Za-z\s]+$");
+            var countryRegex = new Regex(@"^[А-Яа-яЇїІіЄєҐґA-Za-z\s]+$");
+            var seasonRegex = new Regex(@"^[1-4]$");
+
+            if (!nameRegex.IsMatch(name))
+            {
+                int id = vegetable.Id;
+                MessageBox.Show($"Назва городини має не правильний формат! Можливе id городини {id}");
+                throw new Exception($"Назва городини має не правильний формат! Можливе id городини {id}");
+            }
+
+            if (!countryRegex.IsMatch(country))
+            {
+                int id = vegetable.Id;
+                MessageBox.Show($"Країна походження має не правильний формат! Можливе id городини {id}");
+                throw new Exception($"Країна походження має не правильний формат! Можливе id городини {id}");
+            }
+
+            if (!seasonRegex.IsMatch(numOfSeasonText))
+            {
+                int id = vegetable.Id;
+                MessageBox.Show($"Номер сезону визрівання має не правильний формат! Можливе id городини {id}");
+                throw new Exception($"Номер сезону визрівання має не правильний формат! Можливе id городини {id}");
             }
         }
     }

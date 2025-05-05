@@ -37,13 +37,6 @@ namespace OOP_2sem_lab4
             consignmentDB = new ConsignmentDTO();
             storageDB = new StorageDTO();
             consignmentsInStorageDB = new ConsignmentInStorageDTO();
-
-            List<Vegetable> garden = vegetableDB.Vegetables.ToList();
-            string strGarden = "";
-            foreach (var vegetable in garden)
-                strGarden += "Name: " + vegetable.VegetableName + " " + "Country: " + vegetable.Country + " " + "Season: " + vegetable.NumOfSeason + "\n";
-
-            gardenText.Text = strGarden;
         }
 
         private void Button_Window_Main_Click(object sender, RoutedEventArgs e)
