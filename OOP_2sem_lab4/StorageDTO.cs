@@ -12,7 +12,7 @@ namespace OOP_2sem_lab4
 {
     public class StorageDTO
     {
-        public DbSet<Storage> Storages { get; set; }
+        //public DbSet<Storage> Storages { get; set; }
         private const string ConnectionString = "Data Source=GreenSupply_DB.db";
 
         public List<Storage> GetListOfStoragesFromDB()

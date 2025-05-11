@@ -1,27 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Documents.DocumentStructures;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Text.RegularExpressions;
 
 namespace OOP_2sem_lab4
 {
-    /// <summary>
-    /// Interaction logic for AddVegetableWindow.xaml
-    /// </summary>
     public partial class AddVegetableWindow : Window
     {
         public Vegetable NewVegetable { get; private set; }
+
         public AddVegetableWindow()
         {
             InitializeComponent();
@@ -33,43 +23,72 @@ namespace OOP_2sem_lab4
             string country = Country.Text.Trim();
             string numOfSeasonText = NumOfSeason.Text.Trim();
 
+            ClearHighlight(Name, Country, NumOfSeason);
+
             if (!IsValidInput(name, country, numOfSeasonText))
             {
                 return;
             }
 
             int numOfSeason = int.Parse(numOfSeasonText);
-
             NewVegetable = new Vegetable(name, country, numOfSeason);
+
             this.DialogResult = true;
             this.Close();
         }
 
         private bool IsValidInput(string name, string country, string numOfSeasonText)
         {
-            var nameRegex = new Regex(@"^[А-Яа-яЇїІіЄєҐґA-Za-z\s]+$");
-            var countryRegex = new Regex(@"^[А-Яа-яЇїІіЄєҐґA-Za-z\s]+$");
-            var seasonRegex = new Regex(@"^[1-4]$"); // тільки 1, 2, 3 або 4
+            bool inputValid = true;
 
-            if (!nameRegex.IsMatch(name))
+            if (!int.TryParse(numOfSeasonText, out int season))
             {
-                MessageBox.Show("Некоректна назва овоча. Використовуйте тільки букви та пробіли.");
+                HighlightInvalid(NumOfSeason);
+                MessageBox.Show("Сезон має бути числом від 1 до 4.");
                 return false;
             }
 
-            if (!countryRegex.IsMatch(country))
+            var vegetable = new Vegetable(name, country, season);
+            var context = new ValidationContext(vegetable, null, null);
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+            bool isValid = Validator.TryValidateObject(vegetable, context, results, true);
+
+            if (!isValid)
             {
-                MessageBox.Show("Некоректна країна походження. Використовуйте тільки букви та пробіли.");
-                return false;
+                foreach (var result in results)
+                {
+                    if (result.MemberNames.Contains(nameof(Vegetable.VegetableName)))
+                        HighlightInvalid(Name);
+
+                    if (result.MemberNames.Contains(nameof(Vegetable.Country)))
+                        HighlightInvalid(Country);
+
+                    if (result.MemberNames.Contains(nameof(Vegetable.NumOfSeason)))
+                        HighlightInvalid(NumOfSeason);
+                }
+
+                string message = string.Join("\n", results.Select(r => r.ErrorMessage));
+                MessageBox.Show(message, "Помилки валідації.");
+                inputValid = false;
             }
 
-            if (!seasonRegex.IsMatch(numOfSeasonText))
-            {
-                MessageBox.Show("Некоректний номер сезону. Введіть число від 1 до 4.");
-                return false;
-            }
+            return inputValid;
+        }
 
-            return true;
+        private void HighlightInvalid(Control control)
+        {
+            control.BorderBrush = Brushes.Red;
+            control.BorderThickness = new Thickness(2);
+        }
+
+        private void ClearHighlight(params Control[] controls)
+        {
+            foreach (var control in controls)
+            {
+                control.BorderBrush = Brushes.Gray;
+                control.BorderThickness = new Thickness(1);
+            }
         }
     }
 }
